@@ -2,7 +2,7 @@ const Post = () => {
   return (
   <div className="post">
   <div className="image">
-  <img src="https://techcrunch.com/wp-content/uploads/2022/08/GettyImages-1042683346.jpg?w=850&h=492&crop=1"></img>
+  <img src="https://ghost.org/images/home/newsletters_hu17fa9e1613a624e17920eb8de1d59e89_53223_1000x0_resize_q100_h2_box_3.webp"></img>
   </div>
   <div className="texts">
   <h2>Is India done with crypto?</h2>
