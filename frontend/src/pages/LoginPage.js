@@ -12,10 +12,12 @@ const LoginPage = () => {
     method:'POST',
     body: JSON.stringify({username,password}),
     headers: {'Content-Type':'application/json'},
+    credentials: 'include',
   });
   if(response.ok){
     setRedirect(true);
-    // alert('Login successful');
+  }else{
+    alert('wrong credentials');
   }
   };
   if(redirect){

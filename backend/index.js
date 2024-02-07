@@ -4,12 +4,15 @@ const mongoose  = require('mongoose');
 const User = require('./models/user')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 const salt = bcrypt.genSaltSync(10);
 const secret = 'jhbzmgtw';
 
 const app = express ();
-app.use(cors());
+app.use(cors({credentials:true, origin:'http://localhost:3000'}));
 app.use(express.json());
+app.use(cookieParser());
+
 
 mongoose.connect('mongodb://127.0.0.1:27017/BLOGAPP');
 
@@ -35,7 +38,7 @@ app.post('/login',async (req,res)=>{
         if(passOk){
         jwt.sign({username, id:userDoc._id}, secret , {}, (err,token)=>{
            if(err) throw err;
-           res.json(token);
+           res.cookie('token',token).json('ok');
         })
         }
         else{
@@ -47,6 +50,16 @@ app.post('/login',async (req,res)=>{
     }
     
 })
+
+app.get('/profile',(req,res)=>{
+    const {token} = req.cookies;
+    jwt.verify(token, secret, {}, (err,info)=>{
+        if(err) throw err;
+        res.json(info);
+    })
+})
+
+
 app.listen(8800, (req,res)=>{
     console.log("Database connected successfully!!!! ");
 });
