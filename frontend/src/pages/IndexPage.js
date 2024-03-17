@@ -7,13 +7,13 @@ const [post,setPost]=useState([]);
   useEffect(()=>{
 fetch('http://localhost:8800/post').then(response =>{
   response.json().then(posts => {
-console.log(posts);
+    setPost(posts);
   });
 })
   },[])
   return (
    <>
-   {posts.length > 0 && posts.map(post => (
+   {post.length > 0 && post.map(post => (
         <Post {...post} />
       ))}
    </>

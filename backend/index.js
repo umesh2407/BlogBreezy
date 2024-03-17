@@ -70,7 +70,7 @@ app.post('/logout',(req,res)=>{
     res.cookie('token','').json('ok');
 })
 
-app.post('/post', uploadMiddleware.single() , async (req,res)=>{
+app.post('/post', uploadMiddleware.single('file') , async (req,res)=>{
 
 const {originalname,path} = req.file;
 const parts = originalname.split('.');
@@ -81,6 +81,7 @@ fs.renameSync(path,newpath);
 const {token} = req.cookies;
 jwt.verify(token, secret, {}, async(err,info)=>{
     if(err) throw err;
+    const {title,summary,content} = req.body;
     const postDoc = await Post.create({
         title,
         summary,
