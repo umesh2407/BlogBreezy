@@ -153,7 +153,7 @@
 // });
 
 
-const express = require('express');
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
@@ -161,63 +161,77 @@ const uploadMiddleware = multer({dest:'uploads/'});
 const fs = require('fs');
 require('dotenv').config();
 
-const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGO_URL);
 
 const User = require('./models/user');
 const Post = require('./models/post');
 
-const app = express();
+module.exports = async (req, res) => {
+  const { method, body, cookies, params } = req;
 
-app.use(express.json());
+  switch (method) {
+    case 'GET':
+      if (params.id) {
+        const postDoc = await Post.findById(params.id).populate('author', ['username']);
+        res.json(postDoc);
+      } else {
+        const posts = await Post.find().populate('author', ['username']).sort({ createdAt: -1 }).limit(20);
+        res.json(posts);
+      }
+      break;
 
-app.post('/api/register', async (req, res) => {
-    const { username, password } = req.body;
-    try {
-        await User.create({
+    case 'POST':
+      if (req.url === '/register') {
+        const { username, password } = body;
+        try {
+          await User.create({
             username,
             password: bcrypt.hashSync(password, salt),
-        });
-        res.json({ message: 'User registered successfully!!' });
-    } catch (error) {
-        console.error(error);
-        res.status(400).json(error);
-    }
-});
-
-app.post('/api/login', async (req, res) => {
-    const { username, password } = req.body;
-    try {
-        const userDoc = await User.findOne({ username });
-        const passOk = bcrypt.compareSync(password, userDoc.password);
-        if (passOk) {
+          });
+          res.json({ message: 'User registered successfully!!' });
+        } catch (error) {
+          console.error(error);
+          res.status(400).json(error);
+        }
+      } else if (req.url === '/login') {
+        const { username, password } = body;
+        try {
+          const userDoc = await User.findOne({ username });
+          const passOk = bcrypt.compareSync(password, userDoc.password);
+          if (passOk) {
             jwt.sign({ username, id: userDoc._id }, secret, {}, (err, token) => {
-                if (err) throw err;
-                res.cookie('token', token).json({
-                    id: userDoc._id,
-                    username,
-                });
+              if (err) throw err;
+              res.cookie('token', token).json({
+                id: userDoc._id,
+                username,
+              });
             });
-        } else {
+          } else {
             res.status(400).json('Invalid credentials');
+          }
+        } catch (error) {
+          console.error(error);
+          res.status(400).json(error);
         }
-    } catch (error) {
-        console.error(error);
-        res.status(400).json(error);
-    }
-});
+      } else if (req.url === '/post') {
+        // Handle POST request for creating a new post
+        // Include your logic here
+      }
+      break;
 
-app.get('/api/profile', async (req, res) => {
-    const { token } = req.cookies;
-    jwt.verify(token, secret, {}, (err, info) => {
-        if (err) {
-            res.status(401).json({ message: 'Unauthorized' });
-        } else {
-            res.json(info);
-        }
-    });
-});
+    case 'PUT':
+      if (req.url === '/post') {
+        // Handle PUT request for updating a post
+        // Include your logic here
+      }
+      break;
 
-// Add more routes as needed
+    case 'DELETE':
+      // Handle DELETE requests if needed
+      break;
 
-module.exports = app;
+    default:
+      res.status(405).end(); // Method Not Allowed
+      break;
+  }
+};
