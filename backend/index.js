@@ -148,6 +148,6 @@ app.get('/post', async (req,res) => {
     res.json(postDoc);
   })
 
-app.listen(8800, (req,res)=>{
+app.listen("https://blog-app-server-roan.vercel.app/", (req,res)=>{
     console.log("Database connected successfully!!!! ");
 });
