@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect} from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../UserContext";
 
@@ -6,7 +6,7 @@ import { UserContext } from "../UserContext";
 const Header = () => {
 const {setUserInfo, userInfo} = useContext(UserContext);
   useEffect(()=>{
-    fetch('https://blog-app-server-pi.vercel.app/profile',{
+    fetch('http://localhost:8800/profile',{
       credentials:'include',
     }).then(response => {response.json().then(userInfo =>{
       setUserInfo(userInfo);
@@ -16,7 +16,7 @@ const {setUserInfo, userInfo} = useContext(UserContext);
   },[]);
 
 function logout(){
-  fetch('https://blog-app-server-pi.vercel.app/logout',{
+  fetch('http://localhost:8800/logout',{
     credentials: 'include',
     method:'POST'
   });

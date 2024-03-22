@@ -1,23 +1,20 @@
-import { useEffect, useState } from "react";
-import Post from "../components/post";
+import Post from "../Post";
+import {useEffect, useState} from "react";
 
-const IndexPage = () => {
-const [post,setPost]=useState([]);
-
-  useEffect(()=>{
-fetch('https://blog-app-server-pi.vercel.app/post').then(response =>{
-  response.json().then(posts => {
-    setPost(posts);
-  });
-})
-  },[])
+export default function IndexPage() {
+  const [posts,setPosts] = useState([]);
+  useEffect(() => {
+    fetch('http://localhost:8800/post').then(response => {
+      response.json().then(posts => {
+        setPosts(posts);
+      });
+    });
+  }, []);
   return (
-   <>
-   {post.length > 0 && post.map(post => (
+    <>
+      {posts.length > 0 && posts.map(post => (
         <Post {...post} />
       ))}
-   </>
-  )
+    </>
+  );
 }
-
-export default IndexPage;
