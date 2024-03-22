@@ -7,7 +7,7 @@ const [password, setPassword] = useState('');
 async function register(ev){
 ev.preventDefault();
 
-  const response = await fetch('https://blog-app-server-roan.vercel.app/register',{
+  const response = await fetch('https://blog-app-server-pi.vercel.app/register',{
   method:'POST',
   body: JSON.stringify({username,password}),
   headers: {'Content-Type':'application/json'},
