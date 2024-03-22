@@ -5,7 +5,7 @@ const IndexPage = () => {
 const [post,setPost]=useState([]);
 
   useEffect(()=>{
-fetch('http://localhost:8800/post').then(response =>{
+fetch('https://blog-app-server-roan.vercel.app//post').then(response =>{
   response.json().then(posts => {
     setPost(posts);
   });

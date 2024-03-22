@@ -6,7 +6,7 @@ import { UserContext } from "../UserContext";
 const Header = () => {
 const {setUserInfo, userInfo} = useContext(UserContext);
   useEffect(()=>{
-    fetch('http://localhost:8800/profile',{
+    fetch('https://blog-app-server-roan.vercel.app//profile',{
       credentials:'include',
     }).then(response => {response.json().then(userInfo =>{
       setUserInfo(userInfo);
@@ -16,7 +16,7 @@ const {setUserInfo, userInfo} = useContext(UserContext);
   },[]);
 
 function logout(){
-  fetch('http://localhost:8800/logout',{
+  fetch('https://blog-app-server-roan.vercel.app//logout',{
     credentials: 'include',
     method:'POST'
   });
