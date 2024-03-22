@@ -145,5 +145,5 @@ app.get('/post', async (req,res) => {
   })
 
 app.listen(8800, (req,res)=>{
-    res.send("Database connected successfully!!!! ");
+    console.log("Database connected successfully!!!! ");
 });
