@@ -14,7 +14,6 @@ const fs = require('fs');
 require('dotenv').config();
 
 const app = express ();
-
 app.use(cors({credentials:true, origin:'https://blog-breezy.vercel.app/'}));
 app.use(express.json());
 app.use(cookieParser());
@@ -149,6 +148,6 @@ app.get('/post', async (req,res) => {
     res.json(postDoc);
   })
 
-app.listen("https://blog-app-server-roan.vercel.app/", (req,res)=>{
+app.listen(8800, (req,res)=>{
     console.log("Database connected successfully!!!! ");
 });
