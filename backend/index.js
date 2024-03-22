@@ -11,6 +11,7 @@ const secret = 'jhbzmgtw';
 const multer = require('multer');
 const uploadMiddleware = multer({dest:'uploads/'});
 const fs = require('fs');
+require('dotenv').config();
 
 const app = express ();
 app.use(cors({credentials:true, origin:'http://localhost:3000'}));
@@ -18,7 +19,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads',express.static(__dirname + '/uploads'));
 
-mongoose.connect('mongodb://127.0.0.1:27017/BLOGAPP');
+mongoose.connect(process.env.MONGO_URL);
 
 app.post('/register',async (req,res)=>{
     const {username,password}= req.body;
@@ -93,36 +94,7 @@ jwt.verify(token, secret, {}, async(err,info)=>{
 })
 })
 
-// app.put('/post',uploadMiddleware.single('file'), async (req,res) => {
-//     let newPath = null;
-//     if (req.file) {
-//       const {originalname,path} = req.file;
-//       const parts = originalname.split('.');
-//       const ext = parts[parts.length - 1];
-//       newPath = path+'.'+ext;
-//       fs.renameSync(path, newPath);
-//     }
-  
-//     const {token} = req.cookies;
-//     jwt.verify(token, secret, {}, async (err,info) => {
-//       if (err) throw err;
-//       const {id,title,summary,content} = req.body;
-//       const postDoc = await Post.findById(id);
-//       const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id);
-//       if (!isAuthor) {
-//         return res.status(400).json('you are not the author');
-//       }
-//       await postDoc.update({
-//         title,
-//         summary,
-//         content,
-//         cover: newPath ? newPath : postDoc.cover,
-//       });
-  
-//       res.json(postDoc);
-//     });
-  
-//   });
+
 app.put('/post', uploadMiddleware.single('file'), async (req, res) => {
     let newPath = null;
     if (req.file) {
