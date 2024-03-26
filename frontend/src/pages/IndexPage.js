@@ -1,10 +1,12 @@
 import Post from "../Post";
 import {useEffect, useState} from "react";
+const host = process.env.REACT_APP_HOST;
+
 
 export default function IndexPage() {
   const [posts,setPosts] = useState([]);
   useEffect(() => {
-    fetch('http://localhost:8800/post').then(response => {
+    fetch(`${host}post`).then(response => {
       response.json().then(posts => {
         setPosts(posts);
       });
