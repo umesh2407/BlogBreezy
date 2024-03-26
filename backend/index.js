@@ -20,6 +20,9 @@ app.use(cookieParser());
 app.use('/uploads',express.static(__dirname + '/uploads'));
 
 mongoose.connect(process.env.MONGO_URL);
+app.get('/',async(req,res)=>{
+  res.send("Server Build");
+});
 
 app.post('/register',async (req,res)=>{
     const {username,password}= req.body;
@@ -144,6 +147,7 @@ app.get('/post', async (req,res) => {
     res.json(postDoc);
   })
 
+  
 app.listen(8800, (req,res)=>{
     console.log("Database connected successfully!!!! ");
 });
