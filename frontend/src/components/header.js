@@ -7,7 +7,7 @@ import { UserContext } from "../UserContext";
 const Header = () => {
 const {setUserInfo, userInfo} = useContext(UserContext);
   useEffect(()=>{
-    fetch(`https://blogbreezy.onrender.com/profile`,{
+    fetch('https://blogbreezy.onrender.com/profile',{
       credentials:'include',
     }).then(response => {response.json().then(userInfo =>{
       setUserInfo(userInfo);
@@ -17,7 +17,7 @@ const {setUserInfo, userInfo} = useContext(UserContext);
   },[]);
 
 function logout(){
-  fetch(`https://blogbreezy.onrender.com/logout`,{
+  fetch('https://blogbreezy.onrender.com/logout',{
     credentials: 'include',
     method:'POST'
   });
