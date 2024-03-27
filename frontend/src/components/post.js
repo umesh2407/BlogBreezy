@@ -1,14 +1,13 @@
 import {formatISO9075} from "date-fns";
 import {Link} from 'react-router-dom';
-const host = process.env.REACT_APP_HOST;
-
+//
 
 const Post = ({_id, title, summary, cover, content, createdAt, author}) => {
   return (
   <div className="post">
   <div className="image">
     <Link to={`/post/${_id}`}>
-  <img src={`${host}post`+cover}></img>
+  <img src={`https://blogbreezy.onrender.com/post`+cover}></img>
     </Link>
   </div>
   <div className="texts">
