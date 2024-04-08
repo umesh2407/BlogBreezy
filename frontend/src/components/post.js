@@ -1,16 +1,24 @@
-const Post = () => {
+import {formatISO9075} from "date-fns";
+import {Link} from 'react-router-dom';
+//
+
+const Post = ({_id, title, summary, cover, content, createdAt, author}) => {
   return (
   <div className="post">
   <div className="image">
-  <img src="https://ghost.org/images/home/newsletters_hu17fa9e1613a624e17920eb8de1d59e89_53223_1000x0_resize_q100_h2_box_3.webp"></img>
+    <Link to={`/post/${_id}`}>
+  <img src={https://blogbreezy.onrender.com/post`+cover}></img>
+    </Link>
   </div>
   <div className="texts">
-  <h2>Is India done with crypto?</h2>
+  <Link to={`/post/${_id}`}>
+  <h2>{title}</h2>
+  </Link>
   <p className="info">
-    <a className="author">Umesh Choudhary</a>
-    <time>2024-01-11 16:45</time>
+    <a className="author">{author.username}</a>
+    <time>{formatISO9075(new Date(createdAt))}</time>
   </p>
-  <p className="summary">It wasn’t long ago when Indian venture capitalists were scrambling to establish their crypto credentials. ENS addresses adorned Twitter profiles.</p>
+  <p className="summary">{summary}</p>
   </div>
 </div>
   )

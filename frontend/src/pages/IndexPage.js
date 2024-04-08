@@ -1,13 +1,21 @@
-import Post from "../components/post";
+import Post from "../Post";
+import {useEffect, useState} from "react";
+//
 
-const IndexPage = () => {
+export default function IndexPage() {
+  const [posts,setPosts] = useState([]);
+  useEffect(() => {
+    fetch('https://blogbreezy.onrender.com/post').then(response => {
+      response.json().then(posts => {
+        setPosts(posts);
+      });
+    });
+  }, []);
   return (
-   <>
-   <Post/>
-   <Post/>
-   <Post/>
-   </>
-  )
+    <>
+      {posts.length > 0 && posts.map(post => (
+        <Post {...post} />
+      ))}
+    </>
+  );
 }
-
-export default IndexPage;
